@@ -1,7 +1,7 @@
 Summary:	Viewer for various movie formats
 Summary(pl):	Odtwarzacz filmów w ró¿nych formatach
 Name:		xmovie
-Version:	1.5.3
+Version:	1.6
 Release:	1
 License:	GPL
 Group:		X11/Applications/Graphics
@@ -12,7 +12,7 @@ Source0:	http://heroines.sourceforge.net/%{name}-%{version}.tar.gz
 Patch0:		%{name}-system-libs.patch
 BuildRequires:	glib-devel
 BuildRequires:	libmpeg3-devel
-BuildRequires:	quicktime4linux-devel
+BuildRequires:	quicktime4linux-devel >= 1.3
 BuildRequires:	libpng-devel
 BuildRequires:	zlib-devel
 BuildRequires:	XFree86-devel
@@ -33,11 +33,12 @@ Odtwarzacz filmów w ró¿nych formatach - QuickTime i MPEG1/2.
 # Just in case...
 rm -f guicast/colormodels.[ch]
 mv -f quicktime/colormodels.[ch] guicast
-rm -rf libmpeg3 quicktime
+mv -f quicktime/cmodel*.[ch] guicast
+rm -rf libmpeg3 quicktime libsndfile
 
 %build
 ./configure
-%{__make} COPTS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -fno-rtti -fno-exceptions"
+%{__make} COPTS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -fno-rtti"
 
 %install
 rm -rf $RPM_BUILD_ROOT

@@ -1,23 +1,27 @@
-diff -Nur xmovie-1.5.3.orig/Makefile xmovie-1.5.3/Makefile
---- xmovie-1.5.3.orig/Makefile	Wed Nov 29 21:23:07 2000
-+++ xmovie-1.5.3/Makefile	Wed Jan  3 02:34:43 2001
-@@ -1,12 +1,8 @@
+diff -ur xmovie-1.6/Makefile xmovie-1.6.new/Makefile
+--- xmovie-1.6/Makefile	Wed Feb  7 22:38:46 2001
++++ xmovie-1.6.new/Makefile	Mon Apr 16 04:14:38 2001
+@@ -1,16 +1,10 @@
  all:
 -	$(MAKE) -C quicktime
 -	$(MAKE) -C libmpeg3
+-	$(MAKE) -C libsndfile
+ 	$(MAKE) -C avifile
  	$(MAKE) -C guicast
  	$(MAKE) -C xmovie
  
  clean:
 -	$(MAKE) -C quicktime clean
 -	$(MAKE) -C libmpeg3 clean
+-	$(MAKE) -C libsndfile clean
+ 	$(MAKE) -C avifile clean
  	$(MAKE) -C guicast clean
- 	$(MAKE) -C xmovie clean;
+ 	$(MAKE) -C xmovie clean
  
-diff -Nur xmovie-1.5.3.orig/configure xmovie-1.5.3/configure
---- xmovie-1.5.3.orig/configure	Wed Nov 29 21:23:07 2000
-+++ xmovie-1.5.3/configure	Wed Jan  3 03:02:15 2001
-@@ -15,26 +15,16 @@
+diff -ur xmovie-1.6/configure xmovie-1.6.new/configure
+--- xmovie-1.6/configure	Wed Feb  7 22:38:46 2001
++++ xmovie-1.6.new/configure	Mon Apr 16 04:19:03 2001
+@@ -15,7 +15,7 @@
  EOF
  
  if test -z "$CFLAGS"; then
@@ -25,16 +29,17 @@ diff -Nur xmovie-1.5.3.orig/configure xmovie-1.5.3/configure
 +	echo >> $GLOBAL_CONFIG "CFLAGS = \$(COPTS)"
  fi
  
- cat >> $GLOBAL_CONFIG << EOF
- INSTDIR = xmovie
+ echo >> global_config "CFLAGS += -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
+@@ -25,19 +25,9 @@
  TARBALL = xmovie-1.4.tar.gz
 -CC = g++
--CFLAGS += -I../guicast -I../quicktime -I../libmpeg3
 +CC = gcc
-+CFLAGS += -I../guicast -I/usr/X11R6/include -I/usr/X11R6/include/quicktime -I/usr/X11R6/include/libmpeg3 -I/usr/lib/glib/include
+ GCC = gcc
+-CFLAGS += -I../guicast -I../quicktime -I../libmpeg3 -I../libsndfile -I../avifile/include
++CFLAGS += -I../guicast -I/usr/X11R6/include -I/usr/X11R6/include/quicktime -I/usr/X11R6/include/libmpeg3 -I../avifile/include
  LFLAGS = -L/usr/X11R6/lib
 -LIBS = ../libmpeg3/libmpeg3.a ../quicktime/libquicktime.a ../guicast/libguicast.a \\
-+LIBS = ../guicast/libguicast.a -lmpeg3 -lquicktime \\
++LIBS = ../guicast/libguicast.a -lmpeg3 -lquicktime -lstdc++ \\
   	-lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz -ldl
  LDLINKER = g++ -shared 
  EOF
@@ -48,19 +53,22 @@ diff -Nur xmovie-1.5.3.orig/configure xmovie-1.5.3/configure
 -cd quicktime
 -./configure
 -cd ..
-diff -Nur xmovie-1.5.3.orig/guicast/Makefile xmovie-1.5.3/guicast/Makefile
---- xmovie-1.5.3.orig/guicast/Makefile	Wed Nov 29 21:23:09 2000
-+++ xmovie-1.5.3/guicast/Makefile	Wed Jan  3 02:50:30 2001
-@@ -34,6 +34,7 @@
+diff -ur xmovie-1.6/guicast/Makefile xmovie-1.6.new/guicast/Makefile
+--- xmovie-1.6/guicast/Makefile	Wed Feb  7 22:38:46 2001
++++ xmovie-1.6.new/guicast/Makefile	Mon Apr 16 04:13:34 2001
+@@ -35,6 +35,10 @@
  	bcwindow.o \
  	bcwindowbase.o \
  	bcwindowdraw.o \
 +	colormodels.o \
++	cmodel_default.o \
++	cmodel_yuv420p.o \
++	cmodel_yuv422.o \
  	errorbox.o \
  	defaults.o \
  	filesystem.o \
-@@ -65,7 +66,7 @@
- 	$(CC) -o test test.o libguicast.a ../libmpeg3/libmpeg3.a ../quicktime/libquicktime.a $(LFLAGS) $(LIBS) -lpng
+@@ -61,7 +62,7 @@
+ 	$(CC) -o replace replace.o libguicast.a ../quicktime/libquicktime.a $(LFLAGS) $(XLIBS) -lpng
  
  .C.o:
 -	$(CC) -c `./c_flags` $*.C
@@ -68,10 +76,10 @@ diff -Nur xmovie-1.5.3.orig/guicast/Makefile xmovie-1.5.3/guicast/Makefile
  
  clean:
  	rm -f core
-diff -Nur xmovie-1.5.3.orig/xmovie/Makefile xmovie-1.5.3/xmovie/Makefile
---- xmovie-1.5.3.orig/xmovie/Makefile	Wed Nov 29 21:23:07 2000
-+++ xmovie-1.5.3/xmovie/Makefile	Wed Jan  3 02:34:43 2001
-@@ -33,7 +33,7 @@
+diff -ur xmovie-1.6/xmovie/Makefile xmovie-1.6.new/xmovie/Makefile
+--- xmovie-1.6/xmovie/Makefile	Wed Feb  7 22:38:46 2001
++++ xmovie-1.6.new/xmovie/Makefile	Mon Apr 16 04:13:34 2001
+@@ -46,7 +46,7 @@
  	$(CC) -o test test.o $(LFLAGS) $(LIBS)
  
  .C.o:
@@ -80,3 +88,32 @@ diff -Nur xmovie-1.5.3.orig/xmovie/Makefile xmovie-1.5.3/xmovie/Makefile
  
  clean:
  	rm -f core
+--- xmovie-1.6/xmovie/Makefile~	Mon Apr 16 04:22:57 2001
++++ xmovie-1.6/xmovie/Makefile	Mon Apr 16 04:25:36 2001
+@@ -1,7 +1,6 @@
+ AVIDIR = ../avifile
+ include ../global_config
+ include ../avifile/makefile_objs
+-CFLAGS += -g
+ 
+ export CFLAGS
+ PREFIX=/usr
+@@ -31,14 +28,14 @@
+ 	xmovie.o
+ 
+ OUTPUT = xmovie
+-LIBS = ../libmpeg3/libmpeg3.a \
+-	../quicktime/libquicktime.a \
++LIBS = -lmpeg3 \
++	-lquicktime \
+ 	../guicast/libguicast.a \
+-	../libsndfile/libsndfile.a \
++	-lsndfile -lstdc++ \
+  	-lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz -ldl
+ 
+ $(OUTPUT): $(OBJS)
+-	$(CC) -o $(OUTPUT) $(OBJS) $(AVIOBJS) $(LFLAGS) $(LIBS)
++	$(CC) -o $(OUTPUT) $(OBJS) $(AVIOBJS) $(LFLAGS) $(LIBS)
+ 	strip $(OUTPUT)
+ 
+ 
