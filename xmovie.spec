@@ -38,7 +38,7 @@ rm -rf libmpeg3 quicktime libsndfile
 
 %build
 ./configure
-%{__make} COPTS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -fno-rtti"
+%{__make} COPTS="%{rpmcflags} -fno-rtti"
 
 %install
 rm -rf $RPM_BUILD_ROOT
