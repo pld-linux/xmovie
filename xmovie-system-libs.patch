@@ -1,66 +1,53 @@
---- xmovie-1.9.7.Makefile.orig	Sun Jun  9 14:34:36 2002
-+++ xmovie-1.9.7/Makefile	Sun Sep 15 15:15:45 2002
-@@ -1,14 +1,8 @@
- all:
--	$(MAKE) -C quicktime
--	$(MAKE) -C libmpeg3
--	$(MAKE) -C libsndfile
- 	$(MAKE) -C guicast
- 	$(MAKE) -C xmovie
+--- xmovie-1.9.8/build/Makefile.xmovie.orig	Mon Feb 10 04:12:18 2003
++++ xmovie-1.9.8/build/Makefile.xmovie	Fri Feb 28 01:25:13 2003
+@@ -1,9 +1,6 @@
+ include global_config
  
- clean:
--	$(MAKE) -C quicktime clean
--	$(MAKE) -C libmpeg3 clean
--	$(MAKE) -C libsndfile clean
- 	$(MAKE) -C guicast clean
- 	$(MAKE) -C xmovie clean
+ DIRS := \
+-	libmpeg3 \
+-	libsndfile \
+-	quicktime \
+ 	guicast \
+ 	xmovie \
  
---- xmovie-1.9.6.orig/global_config	Sat Jan 26 01:15:55 2002
-+++ xmovie-1.9.6/global_config	Sun May 26 01:46:18 2002
-@@ -1,9 +1,9 @@
- # DO NOT EDIT.  EDIT ./configure INSTEAD AND RERUN IT.
--CFLAGS += -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
-+CFLAGS += $(OPTFLAGS) -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64
- INSTDIR = xmovie
- CC = g++
- GCC = gcc
--CFLAGS += -I../guicast -I../quicktime -I../libmpeg3 -I../libsndfile -I../avifile/include
-+CFLAGS += -I../guicast -I/usr/include/quicktime -I/usr/include/libmpeg3 -I/usr/X11R6/include/avifile -I/usr/X11R6/include
- LFLAGS = -L/usr/X11R6/lib
- LIBS = 
- LDLINKER = g++ -shared 
-diff -Nur xmovie-1.9.6.orig/guicast/Makefile xmovie-1.9.6/guicast/Makefile
---- xmovie-1.9.6.orig/guicast/Makefile	Sat Jan 26 01:16:01 2002
-+++ xmovie-1.9.6/guicast/Makefile	Sun May 26 01:49:04 2002
-@@ -105,7 +104,7 @@
- 	tar Icvf ~/guicast.tar.bz2 guicast
- 
- $(OBJS) $(OBJDIR)/test.o $(OBJDIR)/test2.o $(OBJDIR)/replace.o:
--	$(CC) -c `cat $(OBJDIR)/c_flags` $(subst $(OBJDIR)/,, $*.C) -o $*.o
-+	$(CC) -c $(CFLAGS) $(subst $(OBJDIR)/,, $*.C) -o $*.o
- 
- $(OBJDIR)/bcbitmap.o: 	   				      bcbitmap.C
- $(OBJDIR)/bcbutton.o: 	   				      bcbutton.C
---- xmovie-1.9.7/xmovie/Makefile.orig	Sun Jun  9 14:34:38 2002
-+++ xmovie-1.9.7/xmovie/Makefile	Sun Sep 15 15:18:50 2002
-@@ -31,10 +31,9 @@
- 
+--- xmovie-1.9.8/xmovie/Makefile.orig	Wed Jan 29 07:33:17 2003
++++ xmovie-1.9.8/xmovie/Makefile	Fri Feb 28 01:29:45 2003
+@@ -31,15 +31,14 @@
  OUTPUT = $(OBJDIR)/xmovie
  
--LIBS += ../libmpeg3/$(OBJDIR)/libmpeg3.a \
+ CFLAGS += -I../guicast \
+-	-I../quicktime \
+-	-I../libmpeg3 \
+-	-I../libsndfile
++	-I/usr/include/quicktime \
++	-I/usr/include/libmpeg3
+ 
+ LIBS += -L/usr/X11R6/lib \
+-	../libmpeg3/$(OBJDIR)/libmpeg3.a \
 -	../quicktime/$(OBJDIR)/libquicktime.a \
-+LIBS += -lmpeg3 -lquicktime \
++	-lmpeg3 \
++	-lquicktime \
  	../guicast/$(OBJDIR)/libguicast.a \
 -	../libsndfile/$(OBJDIR)/libsndfile.a \
 +	-lsndfile \
-  	-lGL -lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz -ldl $(XXF86VM)
+  	$(GLLIBS) -lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz -ldl $(XXF86VM)
  
- $(shell echo $(OBJS) $(AVIOBJS) $(CXXREPOSITORY) $(LFLAGS) $(LIBS) > $(OBJDIR)/libs )
-@@ -67,6 +66,7 @@
+ # Static libraries for distribution
+@@ -68,7 +67,6 @@
+ 	cat *.C *.h | wc
+ 
+ install:
+-	strip $(OUTPUT)
+ 	rm -f $(PREFIX)/bin/xmovie
+ 	cp $(OUTPUT) $(PREFIX)/bin
+ 
+--- xmovie-1.9.8/guicast/Makefile.orig	Wed Jan 29 07:32:41 2003
++++ xmovie-1.9.8/guicast/Makefile	Fri Feb 28 01:34:45 2003
+@@ -1,6 +1,6 @@
+ include ../global_config
+ 
+-CFLAGS += -I../quicktime
++CFLAGS += -I/usr/include/quicktime
  
  
- COMPILE = $(CC) -c `cat $(OBJDIR)/c_flags` $? -o $*.o
-+COMPILE = $(CC) -c $(CFLAGS) $? -o $*.o
- 
- $(OBJDIR)/arender.o: 		       arender.C
- 	$(COMPILE)
+ $(shell sh -c 'if ! test -d $(OBJDIR)\; then mkdir $(OBJDIR)\; fi' )

@@ -2,13 +2,14 @@ Summary:	Viewer for various movie formats
 Summary(pl):	Odtwarzacz filmów w ró¿nych formatach
 Summary(pt_BR):	Reprodutor de filmes QuickTime e MPEG-2
 Name:		xmovie
-Version:	1.9.7
+Version:	1.9.8
 Release:	1
 License:	GPL
 Group:		X11/Applications/Graphics
-Source0:	http://prdownloads.sourceforge.net/heroines/%{name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/heroines/%{name}-%{version}-src.tar.bz2
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-libsndfile1.patch
+Patch2:		%{name}-c++.patch
 URL:		http://heroinewarrior.com/xmovie.php3
 BuildRequires:	XFree86-devel
 #BuildRequires:	avifile-devel
@@ -34,7 +35,6 @@ video, Quicktime video (Motion JPEG A, Uncompressed RGB, Component
 video, Progressive JPEG, PNG, YUV 4:2:0, DV), Quicktime audio: Twos
 complement, IMA4, ulaw).
 
-
 %description -l pl
 Odtwarzacz filmów w ró¿nych formatach - QuickTime i MPEG1/2.
 
@@ -48,12 +48,14 @@ alta resolução que você capture ou componha com som estéreo.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 # Just in case...
 rm -rf libmpeg3 quicktime libsndfile avifile
 
 %build
 # -DUSE_AVI for avifile support - but doesn't build then
-%{__make} OPTFLAGS="%{rpmcflags} -fno-rtti"
+CFLAGS="%{rpmcflags} -fno-rtti"; export CFLAGS
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -66,5 +68,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc docs/index.html
 %attr(755,root,root) %{_bindir}/*
