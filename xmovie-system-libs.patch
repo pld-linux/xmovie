@@ -1,12 +1,10 @@
-diff -Nur xmovie-1.9.6.orig/Makefile xmovie-1.9.6/Makefile
---- xmovie-1.9.6.orig/Makefile	Sat Jan 26 01:15:55 2002
-+++ xmovie-1.9.6/Makefile	Sun May 26 01:41:57 2002
-@@ -1,16 +1,8 @@
+--- xmovie-1.9.7.Makefile.orig	Sun Jun  9 14:34:36 2002
++++ xmovie-1.9.7/Makefile	Sun Sep 15 15:15:45 2002
+@@ -1,14 +1,8 @@
  all:
 -	$(MAKE) -C quicktime
 -	$(MAKE) -C libmpeg3
 -	$(MAKE) -C libsndfile
--	$(MAKE) -C avifile
  	$(MAKE) -C guicast
  	$(MAKE) -C xmovie
  
@@ -14,11 +12,9 @@ diff -Nur xmovie-1.9.6.orig/Makefile xmovie-1.9.6/Makefile
 -	$(MAKE) -C quicktime clean
 -	$(MAKE) -C libmpeg3 clean
 -	$(MAKE) -C libsndfile clean
--	$(MAKE) -C avifile clean
  	$(MAKE) -C guicast clean
  	$(MAKE) -C xmovie clean
  
-diff -Nur xmovie-1.9.6.orig/global_config xmovie-1.9.6/global_config
 --- xmovie-1.9.6.orig/global_config	Sat Jan 26 01:15:55 2002
 +++ xmovie-1.9.6/global_config	Sun May 26 01:46:18 2002
 @@ -1,9 +1,9 @@
@@ -36,13 +32,6 @@ diff -Nur xmovie-1.9.6.orig/global_config xmovie-1.9.6/global_config
 diff -Nur xmovie-1.9.6.orig/guicast/Makefile xmovie-1.9.6/guicast/Makefile
 --- xmovie-1.9.6.orig/guicast/Makefile	Sat Jan 26 01:16:01 2002
 +++ xmovie-1.9.6/guicast/Makefile	Sun May 26 01:49:04 2002
-@@ -1,6 +1,5 @@
- include ../global_config
- #CFLAGS += -g -I../quicktime
--CFLAGS = -g -O2 -I../quicktime
- 
- $(shell sh -c 'if ! test -d $(OBJDIR)\; then mkdir $(OBJDIR)\; fi' )
- 
 @@ -105,7 +104,7 @@
  	tar Icvf ~/guicast.tar.bz2 guicast
  
@@ -52,9 +41,8 @@ diff -Nur xmovie-1.9.6.orig/guicast/Makefile xmovie-1.9.6/guicast/Makefile
  
  $(OBJDIR)/bcbitmap.o: 	   				      bcbitmap.C
  $(OBJDIR)/bcbutton.o: 	   				      bcbutton.C
-diff -Nur xmovie-1.9.6.orig/xmovie/Makefile xmovie-1.9.6/xmovie/Makefile
---- xmovie-1.9.6.orig/xmovie/Makefile	Sat Jan 26 01:15:55 2002
-+++ xmovie-1.9.6/xmovie/Makefile	Sun May 26 01:50:18 2002
+--- xmovie-1.9.7/xmovie/Makefile.orig	Sun Jun  9 14:34:38 2002
++++ xmovie-1.9.7/xmovie/Makefile	Sun Sep 15 15:18:50 2002
 @@ -31,10 +31,9 @@
  
  OUTPUT = $(OBJDIR)/xmovie
@@ -68,11 +56,10 @@ diff -Nur xmovie-1.9.6.orig/xmovie/Makefile xmovie-1.9.6/xmovie/Makefile
   	-lGL -lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz -ldl $(XXF86VM)
  
  $(shell echo $(OBJS) $(AVIOBJS) $(CXXREPOSITORY) $(LFLAGS) $(LIBS) > $(OBJDIR)/libs )
-@@ -65,7 +64,7 @@
- 	tar zcf $(OUTPUT).tar.gz $(OUTPUT)
+@@ -67,6 +66,7 @@
  
  
--COMPILE = $(CC) -c `./c_flags` $? -o $*.o
+ COMPILE = $(CC) -c `cat $(OBJDIR)/c_flags` $? -o $*.o
 +COMPILE = $(CC) -c $(CFLAGS) $? -o $*.o
  
  $(OBJDIR)/arender.o: 		       arender.C
