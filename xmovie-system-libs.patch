@@ -1,7 +1,7 @@
-diff -ur xmovie-1.6/Makefile xmovie-1.6.new/Makefile
---- xmovie-1.6/Makefile	Wed Feb  7 22:38:46 2001
-+++ xmovie-1.6.new/Makefile	Mon Apr 16 04:14:38 2001
-@@ -1,16 +1,10 @@
+diff -durN xmovie-1.7.orig/Makefile xmovie-1.7/Makefile
+--- xmovie-1.7.orig/Makefile	Tue May  1 02:28:02 2001
++++ xmovie-1.7/Makefile	Tue Jul 10 16:18:21 2001
+@@ -1,15 +1,9 @@
  all:
 -	$(MAKE) -C quicktime
 -	$(MAKE) -C libmpeg3
@@ -17,103 +17,98 @@ diff -ur xmovie-1.6/Makefile xmovie-1.6.new/Makefile
  	$(MAKE) -C avifile clean
  	$(MAKE) -C guicast clean
  	$(MAKE) -C xmovie clean
- 
-diff -ur xmovie-1.6/configure xmovie-1.6.new/configure
---- xmovie-1.6/configure	Wed Feb  7 22:38:46 2001
-+++ xmovie-1.6.new/configure	Mon Apr 16 04:19:03 2001
-@@ -15,7 +15,7 @@
+diff -durN xmovie-1.7.orig/configure xmovie-1.7/configure
+--- xmovie-1.7.orig/configure	Tue May  1 02:28:02 2001
++++ xmovie-1.7/configure	Tue Jul 10 16:18:21 2001
+@@ -39,7 +39,7 @@
  EOF
  
- if test -z "$CFLAGS"; then
--	echo >> $GLOBAL_CONFIG "CFLAGS = -O2 -funroll-loops -fomit-frame-pointer -malign-loops=2 -malign-jumps=2 -malign-functions=2 -march=i486 -I/usr/local/include"
-+	echo >> $GLOBAL_CONFIG "CFLAGS = \$(COPTS)"
+ if test -z "$CFLAGS" -a ${ALPHA} = 0; then
+-	echo >> global_config "CFLAGS = -O2 -funroll-loops -fomit-frame-pointer -malign-loops=2 -malign-jumps=2 -malign-functions=2 -I/usr/local/include"
++	echo >> global_config "CFLAGS = \$(COPTS)"
  fi
  
  echo >> global_config "CFLAGS += -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64"
-@@ -25,19 +25,9 @@
- TARBALL = xmovie-1.4.tar.gz
+@@ -49,9 +49,9 @@
+ 
+ cat >> global_config << EOF
+ INSTDIR = xmovie
 -CC = g++
 +CC = gcc
  GCC = gcc
 -CFLAGS += -I../guicast -I../quicktime -I../libmpeg3 -I../libsndfile -I../avifile/include
 +CFLAGS += -I../guicast -I/usr/X11R6/include -I/usr/X11R6/include/quicktime -I/usr/X11R6/include/libmpeg3 -I../avifile/include
  LFLAGS = -L/usr/X11R6/lib
--LIBS = ../libmpeg3/libmpeg3.a ../quicktime/libquicktime.a ../guicast/libguicast.a \\
-+LIBS = ../guicast/libguicast.a -lmpeg3 -lquicktime -lstdc++ \\
-  	-lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz -ldl
  LDLINKER = g++ -shared 
+ OBJDIR = \$(shell uname --machine)
+@@ -72,15 +72,6 @@
+ LIBS = $DVSDIR/linux/lib/libdvsoem.a
  EOF
--
+ fi
 -
 -cd libmpeg3
--./configure
+-./configure $1 $2 $3 $4 $5
 -cd ..
 -
 -
 -cd quicktime
--./configure
+-./configure $1 $2 $3 $4 $5
 -cd ..
-diff -ur xmovie-1.6/guicast/Makefile xmovie-1.6.new/guicast/Makefile
---- xmovie-1.6/guicast/Makefile	Wed Feb  7 22:38:46 2001
-+++ xmovie-1.6.new/guicast/Makefile	Mon Apr 16 04:13:34 2001
-@@ -35,6 +35,10 @@
- 	bcwindow.o \
- 	bcwindowbase.o \
- 	bcwindowdraw.o \
-+	colormodels.o \
-+	cmodel_default.o \
-+	cmodel_yuv420p.o \
-+	cmodel_yuv422.o \
- 	errorbox.o \
- 	defaults.o \
- 	filesystem.o \
-@@ -61,7 +62,7 @@
- 	$(CC) -o replace replace.o libguicast.a ../quicktime/libquicktime.a $(LFLAGS) $(XLIBS) -lpng
  
- .C.o:
--	$(CC) -c `./c_flags` $*.C
-+	$(CC) -c $(CFLAGS) $*.C
+ cd avifile
+ ./configure  $1 $2 $3 $4 $5
+diff -durN xmovie-1.7.orig/guicast/Makefile xmovie-1.7/guicast/Makefile
+--- xmovie-1.7.orig/guicast/Makefile	Tue May  1 02:28:07 2001
++++ xmovie-1.7/guicast/Makefile	Tue Jul 10 16:21:04 2001
+@@ -48,14 +48,19 @@
+ 	$(OBJDIR)/units.o \
+ 	$(OBJDIR)/vframe.o \
+ 	$(OBJDIR)/workarounds.o
++	
++OBJSCM=$(OBJDIR)/colormodels.o \
++	$(OBJDIR)/cmodel_default.o \
++	$(OBJDIR)/cmodel_yuv420p.o \
++	$(OBJDIR)/cmodel_yuv422.o 
  
- clean:
- 	rm -f core
-diff -ur xmovie-1.6/xmovie/Makefile xmovie-1.6.new/xmovie/Makefile
---- xmovie-1.6/xmovie/Makefile	Wed Feb  7 22:38:46 2001
-+++ xmovie-1.6.new/xmovie/Makefile	Mon Apr 16 04:13:34 2001
-@@ -46,7 +46,7 @@
- 	$(CC) -o test test.o $(LFLAGS) $(LIBS)
+ OUTPUT = $(OBJDIR)/libguicast.so
+ STATICOUTPUT = $(OBJDIR)/libguicast.a
  
- .C.o:
--	$(CC) -c `./c_flags` $*.C
-+	$(CC) -c $(CFLAGS) $*.C
+ # PTHREAD DOESN'T WORK WHEN LINKED HERE
+-all: $(OBJS)
+-	ar rcs $(STATICOUTPUT) $(OBJS) $(CXXREPOSITORY)
+-	$(LDLINKER) $(LFLAGS) -o $(OUTPUT) $(OBJS) $(CXXREPOSITORY)
++all: $(OBJS) $(OBJSCM)
++	ar rcs $(STATICOUTPUT) $(OBJS) $(OBJSCM) $(CXXREPOSITORY)
++	$(LDLINKER) $(LFLAGS) -o $(OUTPUT) $(OBJS) $(OBJSCM) $(CXXREPOSITORY)
  
- clean:
- 	rm -f core
---- xmovie-1.6/xmovie/Makefile~	Mon Apr 16 04:22:57 2001
-+++ xmovie-1.6/xmovie/Makefile	Mon Apr 16 04:25:36 2001
-@@ -1,7 +1,6 @@
- AVIDIR = ../avifile
- include ../global_config
- include ../avifile/makefile_objs
--CFLAGS += -g
+ replace:  replace.o $(STATICOUTPUT)
+ 	$(CC) -o replace replace.o $(STATICOUTPUT) ../quicktime/libquicktime.a $(LFLAGS) $(XLIBS) -lpng
+@@ -78,7 +83,10 @@
+ 	tar Icvf ~/guicast.tar.bz2 guicast
  
- export CFLAGS
- PREFIX=/usr
-@@ -31,14 +28,14 @@
- 	xmovie.o
+ $(OBJS) $(OBJDIR)/test.o $(OBJDIR)/replace.o:
+-	$(CC) -c `./c_flags` $(subst $(OBJDIR)/,, $*.C) -o $*.o
++	$(CC) -c $(CFLAGS) $(subst $(OBJDIR)/,, $*.C) -o $*.o
++
++$(OBJSCM) :
++	$(CC) -c $(CFLAGS) `glib-config --cflags` $(subst $(OBJDIR)/,, $*.c) -o $*.o
  
- OUTPUT = xmovie
--LIBS = ../libmpeg3/libmpeg3.a \
--	../quicktime/libquicktime.a \
-+LIBS = -lmpeg3 \
+ $(OBJDIR)/bcbitmap.o: 	   				      bcbitmap.C
+ $(OBJDIR)/bcbutton.o: 	   				      bcbutton.C
+diff -durN xmovie-1.7.orig/xmovie/Makefile xmovie-1.7/xmovie/Makefile
+--- xmovie-1.7.orig/xmovie/Makefile	Tue May  1 02:28:03 2001
++++ xmovie-1.7/xmovie/Makefile	Tue Jul 10 16:18:21 2001
+@@ -31,10 +31,10 @@
+ 
+ OUTPUT = $(OBJDIR)/xmovie
+ 
+-LIBS += ../libmpeg3/$(OBJDIR)/libmpeg3.a \
+-	../quicktime/$(OBJDIR)/libquicktime.a \
++LIBS += -lmpeg3 \
 +	-lquicktime \
- 	../guicast/libguicast.a \
--	../libsndfile/libsndfile.a \
+ 	../guicast/$(OBJDIR)/libguicast.a \
+-	../libsndfile/$(OBJDIR)/libsndfile.a \
 +	-lsndfile -lstdc++ \
   	-lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz -ldl
  
  $(OUTPUT): $(OBJS)
--	$(CC) -o $(OUTPUT) $(OBJS) $(AVIOBJS) $(LFLAGS) $(LIBS)
-+	$(CC) -o $(OUTPUT) $(OBJS) $(AVIOBJS) $(LFLAGS) $(LIBS)
- 	strip $(OUTPUT)
- 
- 
