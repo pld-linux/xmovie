@@ -37,7 +37,7 @@ rm -rf libmpeg3 quicktime
 
 %build
 ./configure
-%{__make} COPTS="%{?debug:-O -g}%{!?debug:$RPM_OPT_FLAGS} -fno-rtti -fno-exceptions"
+%{__make} COPTS="%{?debug:-O0 -g}%{!?debug:$RPM_OPT_FLAGS} -fno-rtti -fno-exceptions"
 
 %install
 rm -rf $RPM_BUILD_ROOT
