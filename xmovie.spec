@@ -7,7 +7,7 @@ License:	GPL
 Group:		X11/Applications/Graphics
 Group(pl):	X11/Aplikacje/Grafika
 URL:		http://heroine.linuxave.net/xmovie.html
-Source0:	http://heroine.linuxave.net/%{name}-%{version}.tar.gz
+Source0:	http://heroines.sourceforge.net/%{name}-%{version}.tar.gz
 Patch0:		%{name}-system-libs.patch
 BuildRequires:	glib-devel
 BuildRequires:	libmpeg3-devel
