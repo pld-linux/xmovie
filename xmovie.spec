@@ -11,7 +11,7 @@ Patch0:		%{name}-system-libs.patch
 BuildRequires:	glib-devel
 BuildRequires:	libmpeg3-devel
 BuildRequires:	quicktime4linux-devel >= 1.3
-BuildRequires:  libsndfile-devel
+BuildRequires:	libsndfile-devel
 BuildRequires:	libpng-devel
 BuildRequires:	zlib-devel
 BuildRequires:	XFree86-devel
