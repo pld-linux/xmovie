@@ -1,7 +1,7 @@
 Summary:	Viewer for various movie formats
 Summary(pl):	Odtwarzacz filmów w ró¿nych formatach
 Name:		xmovie
-Version:	1.6
+Version:	1.7
 Release:	1
 License:	GPL
 Group:		X11/Applications/Graphics
@@ -16,7 +16,7 @@ BuildRequires:	quicktime4linux-devel >= 1.3
 BuildRequires:	libpng-devel
 BuildRequires:	zlib-devel
 BuildRequires:	XFree86-devel
-Requires:	kernel >= 2.4.3
+Conflicts:	kernel < 2.4.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
