@@ -16,6 +16,7 @@ BuildRequires:	quicktime4linux-devel >= 1.3
 BuildRequires:	libpng-devel
 BuildRequires:	zlib-devel
 BuildRequires:	XFree86-devel
+Requires:	kernel >= 2.4.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
