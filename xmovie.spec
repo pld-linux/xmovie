@@ -13,6 +13,7 @@ Patch0:		%{name}-system-libs.patch
 BuildRequires:	glib-devel
 BuildRequires:	libmpeg3-devel
 BuildRequires:	quicktime4linux-devel >= 1.3
+BuildRequires:  libsndfile-devel
 BuildRequires:	libpng-devel
 BuildRequires:	zlib-devel
 BuildRequires:	XFree86-devel
@@ -45,7 +46,7 @@ rm -rf libmpeg3 quicktime libsndfile
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_bindir}
 
-install xmovie/xmovie $RPM_BUILD_ROOT%{_bindir}
+install xmovie/*/xmovie $RPM_BUILD_ROOT%{_bindir}
 
 gzip -9nf docs/index.html README
 
