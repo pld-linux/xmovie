@@ -1,21 +1,21 @@
 Summary:	Viewer for various movie formats
 Summary(pl):	Odtwarzacz filmów w ró¿nych formatach
 Name:		xmovie
-Version:	1.7
+Version:	1.9.6
 Release:	1
 License:	GPL
 Group:		X11/Applications/Graphics
 URL:		http://heroine.linuxave.net/xmovie.html
 Source0:	http://heroines.sourceforge.net/%{name}-%{version}.tar.gz
 Patch0:		%{name}-system-libs.patch
+BuildRequires:	XFree86-devel
+#BuildRequires:	avifile-devel
 BuildRequires:	glib-devel
 BuildRequires:	libmpeg3-devel
-BuildRequires:	quicktime4linux-devel >= 1.3
-BuildRequires:	libsndfile-devel
 BuildRequires:	libpng-devel
+BuildRequires:	libsndfile-devel
+BuildRequires:	quicktime4linux-devel >= 1.5
 BuildRequires:	zlib-devel
-BuildRequires:	XFree86-devel
-Conflicts:	kernel < 2.4.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/usr/X11R6
@@ -31,15 +31,11 @@ Odtwarzacz filmów w ró¿nych formatach - QuickTime i MPEG1/2.
 %setup -q
 %patch0 -p1
 # Just in case...
-rm -f guicast/colormodels.[ch]
-mv -f quicktime/colormodels.[ch] guicast
-mv -f quicktime/cmodel*.[ch] guicast
-rm -rf libmpeg3 quicktime libsndfile
+rm -rf libmpeg3 quicktime libsndfile avifile
 
 %build
-export CFLAGS="-I/usr/include/quicktime"
-./configure
-%{__make} COPTS="%{rpmcflags} -fno-rtti"
+# -DUSE_AVI for avifile support - but doesn't build then
+%{__make} OPTFLAGS="%{rpmcflags} -fno-rtti"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -47,12 +43,10 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 
 install xmovie/*/xmovie $RPM_BUILD_ROOT%{_bindir}
 
-gzip -9nf docs/index.html README
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc docs/*.gz README.gz
+%doc docs/index.html
 %attr(755,root,root) %{_bindir}/*
