@@ -1,0 +1,12 @@
+--- xmovie-1.9.12/global_config.orig	2004-02-01 05:54:29.000000000 +0000
++++ xmovie-1.9.12/global_config	2004-04-12 12:41:50.000000000 +0000
+@@ -69,9 +69,6 @@
+ CFLAGS += $(ALSA_CFLAGS)
+ endif
+ 
+-ifeq ($(OBJDIR), alpha)
+-CXXREPOSITORY = cxx_repository/*.o
+-endif
+ 
+ $(shell sh -c 'if ! test -d $(OBJDIR)\; then mkdir $(OBJDIR)\; fi' )
+ 
