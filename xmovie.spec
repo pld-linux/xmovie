@@ -2,12 +2,12 @@ Summary:	Viewer for various movie formats
 Summary(pl):	Odtwarzacz filmów w ró¿nych formatach
 Summary(pt_BR):	Reprodutor de filmes QuickTime e MPEG-2
 Name:		xmovie
-Version:	1.9.11
+Version:	1.9.12
 Release:	1
 License:	GPL
 Group:		X11/Applications/Graphics
 Source0:	http://dl.sourceforge.net/heroines/%{name}-%{version}-src.tar.bz2
-# Source0-md5:	9feae11dea57aac19f94aa3114bd97f8
+# Source0-md5:	117714618963543573400c0809478555
 Patch0:		%{name}-system-libs.patch
 URL:		http://heroinewarrior.com/xmovie.php3
 BuildRequires:	XFree86-devel

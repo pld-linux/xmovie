@@ -1,29 +1,31 @@
---- xmovie-1.9.11/build/Makefile.xmovie.orig	2003-11-11 07:43:15.000000000 +0100
-+++ xmovie-1.9.11/build/Makefile.xmovie	2003-11-12 21:37:06.324420400 +0100
-@@ -2,13 +2,10 @@
+diff -burN xmovie-1.9.12.orig/build/Makefile.xmovie xmovie-1.9.12/build/Makefile.xmovie
+--- xmovie-1.9.12.orig/build/Makefile.xmovie	2004-03-06 14:21:43.670738960 +0100
++++ xmovie-1.9.12/build/Makefile.xmovie	2004-03-06 14:23:00.384076760 +0100
+@@ -2,21 +2,11 @@
  
  # system tests
  
 -SNDFILE_DIR := $(shell expr libsndfile* )
- 
- 
- 
+-
+-
+-
  DIRS := \
 -	libmpeg3 \
 -	quicktime \
  	guicast \
  	xmovie \
  
-@@ -16,7 +13,6 @@
- 
- 
+-
+-
+-
  all:
 -	$(MAKE) -f build/Makefile.sndfile
  	@ for i in $(DIRS) ; \
  	do \
  		 $(MAKE) -C $$i ; \
---- xmovie-1.9.11/guicast/Makefile.orig	2003-10-24 08:52:53.000000000 +0200
-+++ xmovie-1.9.11/guicast/Makefile	2003-11-12 21:41:03.136419504 +0100
+diff -burN xmovie-1.9.12.orig/guicast/Makefile xmovie-1.9.12/guicast/Makefile
+--- xmovie-1.9.12.orig/guicast/Makefile	2004-03-06 14:21:51.723514752 +0100
++++ xmovie-1.9.12/guicast/Makefile	2004-03-06 14:23:35.013812240 +0100
 @@ -2,9 +2,8 @@
  
  # Need the freetype include that matches the X server for Xft rendering
@@ -35,8 +37,9 @@
  
  # must only define here so applications using libpng don't see any of the XFT
  # includes at all.  They use a conflicting setjmp.
---- xmovie-1.9.11/xmovie/Makefile.orig	2003-10-14 09:54:41.000000000 +0200
-+++ xmovie-1.9.11/xmovie/Makefile	2003-11-12 21:40:02.133693328 +0100
+diff -burN xmovie-1.9.12.orig/xmovie/Makefile xmovie-1.9.12/xmovie/Makefile
+--- xmovie-1.9.12.orig/xmovie/Makefile	2004-03-06 14:21:56.603772840 +0100
++++ xmovie-1.9.12/xmovie/Makefile	2004-03-06 14:59:56.871119512 +0100
 @@ -1,7 +1,6 @@
  #AVIDIR = ../avifile
  #include ../avifile/makefile_objs
@@ -52,8 +55,8 @@
 -	-I../quicktime \
 -	-I../libmpeg3 \
 -	-I$(SNDFILE_DIR)/src
-+	-I/usr/include/quicktime \
-+	-I/usr/include/libmpeg3
++	  -I/usr/include/quicktime \
++	  -I/usr/include/libmpeg3
  
  LIBS += -L/usr/X11R6/lib \
 -	../libmpeg3/$(OBJDIR)/libmpeg3.a \
@@ -63,10 +66,10 @@
  	../guicast/$(OBJDIR)/libguicast.a \
 -	$(SNDFILE_DIR)/$(OBJDIR)/libsndfile.a \
 +	-lsndfile \
-  	$(GLLIBS) -lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz -ldl $(XXF86VM)
- 
- # Static libraries for distribution
-@@ -69,7 +67,6 @@
+  	$(GLLIBS) \
+ 	-lX11 \
+ 	-lXext \
+@@ -79,7 +77,6 @@
  	cat *.C *.h | wc
  
  install:
