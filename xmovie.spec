@@ -5,8 +5,6 @@ Version:	1.7
 Release:	1
 License:	GPL
 Group:		X11/Applications/Graphics
-Group(de):	X11/Applikationen/Grafik
-Group(pl):	X11/Aplikacje/Grafika
 URL:		http://heroine.linuxave.net/xmovie.html
 Source0:	http://heroines.sourceforge.net/%{name}-%{version}.tar.gz
 Patch0:		%{name}-system-libs.patch
