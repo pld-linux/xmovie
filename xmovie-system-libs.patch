@@ -1,0 +1,73 @@
+diff -ur xmovie-1.5.2/Makefile xmovie-1.5.2.new/Makefile
+--- xmovie-1.5.2/Makefile	Sat Sep 30 05:12:29 2000
++++ xmovie-1.5.2.new/Makefile	Sun Nov 19 03:51:13 2000
+@@ -1,12 +1,8 @@
+ all:
+-	$(MAKE) -C quicktime
+-	$(MAKE) -C libmpeg3
+ 	$(MAKE) -C guicast
+ 	$(MAKE) -C xmovie
+ 
+ clean:
+-	$(MAKE) -C quicktime clean
+-	$(MAKE) -C libmpeg3 clean
+ 	$(MAKE) -C guicast clean
+ 	$(MAKE) -C xmovie clean;
+ 
+diff -ur xmovie-1.5.2/configure xmovie-1.5.2.new/configure
+--- xmovie-1.5.2/configure	Sat Sep 30 05:12:29 2000
++++ xmovie-1.5.2.new/configure	Sun Nov 19 04:04:55 2000
+@@ -15,26 +15,16 @@
+ EOF
+ 
+ if test -z "$CFLAGS"; then
+-	echo >> $GLOBAL_CONFIG "CFLAGS = -O2 -funroll-loops -fomit-frame-pointer -malign-loops=2 -malign-jumps=2 -malign-functions=2 -march=i486 -I/usr/local/include"
++	echo >> $GLOBAL_CONFIG "CFLAGS = \$(COPTS)"
+ fi
+ 
+ cat >> $GLOBAL_CONFIG << EOF
+ INSTDIR = xmovie
+ TARBALL = xmovie-1.4.tar.gz
+ CC = g++
+-CFLAGS += -I../guicast -I../quicktime -I../libmpeg3
++CFLAGS += -I../guicast -I/usr/X11R6/include/quicktime -I/usr/X11R6/include/libmpeg3
+ LFLAGS = -L/usr/X11R6/lib
+-LIBS = ../libmpeg3/libmpeg3.a ../quicktime/libquicktime.a ../guicast/libguicast.a \\
++LIBS = ../guicast/libguicast.a -lmpeg3 -lquicktime \\
+  	-lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz
+ LDLINKER = g++ -shared 
+ EOF
+-
+-
+-cd libmpeg3
+-./configure
+-cd ..
+-
+-
+-cd quicktime
+-./configure --no-firewire
+-cd ..
+diff -ur xmovie-1.5.2/guicast/Makefile xmovie-1.5.2.new/guicast/Makefile
+--- xmovie-1.5.2/guicast/Makefile	Sat Sep 30 05:12:32 2000
++++ xmovie-1.5.2.new/guicast/Makefile	Sun Nov 19 03:55:19 2000
+@@ -64,7 +64,7 @@
+ 	$(CC) -o test test.o libguicast.a ../libmpeg3/libmpeg3.a $(LFLAGS) $(LIBS) -lpng
+ 
+ .C.o:
+-	$(CC) -c `./c_flags` $*.C
++	$(CC) -c $(CFLAGS) $*.C
+ 
+ clean:
+ 	rm -f core
+diff -ur xmovie-1.5.2/xmovie/Makefile xmovie-1.5.2.new/xmovie/Makefile
+--- xmovie-1.5.2/xmovie/Makefile	Sat Sep 30 05:12:29 2000
++++ xmovie-1.5.2.new/xmovie/Makefile	Sun Nov 19 03:55:34 2000
+@@ -32,7 +32,7 @@
+ 	$(CC) -o test test.o $(LFLAGS) $(LIBS)
+ 
+ .C.o:
+-	$(CC) -c `./c_flags` $*.C
++	$(CC) -c $(CFLAGS) $*.C
+ 
+ clean:
+ 	rm -f core
