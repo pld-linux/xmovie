@@ -7,6 +7,7 @@ Release:	1
 License:	GPL
 Group:		X11/Applications/Graphics
 Source0:	http://dl.sourceforge.net/heroines/%{name}-%{version}-src.tar.bz2
+# Source0-md5:	779477a1edb57faa0e194da4a318d787
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-libsndfile1.patch
 Patch2:		%{name}-c++.patch
