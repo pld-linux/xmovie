@@ -8,6 +8,7 @@ License:	GPL
 Group:		X11/Applications/Graphics
 Source0:	http://prdownloads.sourceforge.net/heroines/%{name}-%{version}.tar.gz
 Patch0:		%{name}-system-libs.patch
+Patch1:		%{name}-libsndfile1.patch
 URL:		http://heroinewarrior.com/xmovie.php3
 BuildRequires:	XFree86-devel
 #BuildRequires:	avifile-devel
@@ -48,6 +49,7 @@ alta resolução que você capture ou componha com som estéreo.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 # Just in case...
 rm -rf libmpeg3 quicktime libsndfile avifile
 
