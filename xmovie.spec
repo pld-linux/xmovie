@@ -1,5 +1,6 @@
 Summary:	Viewer for various movie formats
 Summary(pl):	Odtwarzacz filmów w ró¿nych formatach
+Summary(pt_BR):	Reprodutor de filmes QuickTime e MPEG-2
 Name:		xmovie
 Version:	1.9.6
 Release:	1
@@ -22,10 +23,27 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_mandir		%{_prefix}/man
 
 %description
-Viewer for various movie formats, including QuickTime and MPEG1/2.
+Introducing a movie player for MPEG-2, DVD, and Quicktime movies with
+stereo sound. It won't play any movies you download from the internet.
+What XMovie is used for is playing long, high resolution movies you
+capture or composite yourself with stereo sound. The other Quicktime
+players, well, the other player is not convenient for movies over 50
+minutes and it doesn't support aspect ratios or stereo sound.
+
+XMovie plays MPEG-1/MPEG-2 system streams, MP2/MP3/AC3 audio, MPEG-1/2
+video, Quicktime video (Motion JPEG A, Uncompressed RGB, Component
+video, Progressive JPEG, PNG, YUV 4:2:0, DV), Quicktime audio: Twos
+complement, IMA4, ulaw).
+
 
 %description -l pl
 Odtwarzacz filmów w ró¿nych formatach - QuickTime i MPEG1/2.
+
+%description -l pt_BR
+Aqui está um reprodutor de filmes em MPEG-2, DVD e Quicktime com som
+estéreo. Ele não reproduzirá todos os filmes que você obter na
+Internet. O XMovie deve ser usado para reproduzir filmes longos e de
+alta resolução que você capture ou componha com som estéreo.
 
 %prep
 %setup -q
