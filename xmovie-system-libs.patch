@@ -30,7 +30,7 @@ diff -ur xmovie-1.5.2/configure xmovie-1.5.2.new/configure
  TARBALL = xmovie-1.4.tar.gz
  CC = g++
 -CFLAGS += -I../guicast -I../quicktime -I../libmpeg3
-+CFLAGS += -I../guicast -I/usr/X11R6/include/quicktime -I/usr/X11R6/include/libmpeg3
++CFLAGS += -I../guicast -I/usr/X11R6/include -I/usr/X11R6/include/quicktime -I/usr/X11R6/include/libmpeg3
  LFLAGS = -L/usr/X11R6/lib
 -LIBS = ../libmpeg3/libmpeg3.a ../quicktime/libquicktime.a ../guicast/libguicast.a \\
 +LIBS = ../guicast/libguicast.a -lmpeg3 -lquicktime \\
