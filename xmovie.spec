@@ -39,6 +39,7 @@ mv -f quicktime/cmodel*.[ch] guicast
 rm -rf libmpeg3 quicktime libsndfile
 
 %build
+export CFLAGS="-I/usr/include/quicktime"
 ./configure
 %{__make} COPTS="%{rpmcflags} -fno-rtti"
 
