@@ -1,24 +1,57 @@
---- xmovie-1.9.8/build/Makefile.xmovie.orig	Mon Feb 10 04:12:18 2003
-+++ xmovie-1.9.8/build/Makefile.xmovie	Fri Feb 28 01:25:13 2003
-@@ -1,9 +1,6 @@
- include global_config
+--- xmovie-1.9.11/build/Makefile.xmovie.orig	2003-11-11 07:43:15.000000000 +0100
++++ xmovie-1.9.11/build/Makefile.xmovie	2003-11-12 21:37:06.324420400 +0100
+@@ -2,13 +2,10 @@
+ 
+ # system tests
+ 
+-SNDFILE_DIR := $(shell expr libsndfile* )
+ 
+ 
  
  DIRS := \
 -	libmpeg3 \
--	libsndfile \
 -	quicktime \
  	guicast \
  	xmovie \
  
---- xmovie-1.9.8/xmovie/Makefile.orig	Wed Jan 29 07:33:17 2003
-+++ xmovie-1.9.8/xmovie/Makefile	Fri Feb 28 01:29:45 2003
-@@ -31,15 +31,14 @@
+@@ -16,7 +13,6 @@
+ 
+ 
+ all:
+-	$(MAKE) -f build/Makefile.sndfile
+ 	@ for i in $(DIRS) ; \
+ 	do \
+ 		 $(MAKE) -C $$i ; \
+--- xmovie-1.9.11/guicast/Makefile.orig	2003-10-24 08:52:53.000000000 +0200
++++ xmovie-1.9.11/guicast/Makefile	2003-11-12 21:41:03.136419504 +0100
+@@ -2,9 +2,8 @@
+ 
+ # Need the freetype include that matches the X server for Xft rendering
+ #FREETYPE_DIR := ..//usr/X11R6/include/freetype2
+-FREETYPE_DIR := $(shell expr ../freetype*/include )
+ 
+-CFLAGS += -I../quicktime -I$(FREETYPE_DIR)
++CFLAGS += -I/usr/include/quicktime -I/usr/include/freetype2
+ 
+ # must only define here so applications using libpng don't see any of the XFT
+ # includes at all.  They use a conflicting setjmp.
+--- xmovie-1.9.11/xmovie/Makefile.orig	2003-10-14 09:54:41.000000000 +0200
++++ xmovie-1.9.11/xmovie/Makefile	2003-11-12 21:40:02.133693328 +0100
+@@ -1,7 +1,6 @@
+ #AVIDIR = ../avifile
+ #include ../avifile/makefile_objs
+ include ../global_config
+-SNDFILE_DIR := $(shell expr ../libsndfile* )
+ 
+ PREFIX=/usr
+ 
+@@ -32,15 +31,14 @@
  OUTPUT = $(OBJDIR)/xmovie
  
  CFLAGS += -I../guicast \
 -	-I../quicktime \
 -	-I../libmpeg3 \
--	-I../libsndfile
+-	-I$(SNDFILE_DIR)/src
 +	-I/usr/include/quicktime \
 +	-I/usr/include/libmpeg3
  
@@ -28,12 +61,12 @@
 +	-lmpeg3 \
 +	-lquicktime \
  	../guicast/$(OBJDIR)/libguicast.a \
--	../libsndfile/$(OBJDIR)/libsndfile.a \
+-	$(SNDFILE_DIR)/$(OBJDIR)/libsndfile.a \
 +	-lsndfile \
   	$(GLLIBS) -lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz -ldl $(XXF86VM)
  
  # Static libraries for distribution
-@@ -68,7 +67,6 @@
+@@ -69,7 +67,6 @@
  	cat *.C *.h | wc
  
  install:
@@ -41,13 +74,3 @@
  	rm -f $(PREFIX)/bin/xmovie
  	cp $(OUTPUT) $(PREFIX)/bin
  
---- xmovie-1.9.8/guicast/Makefile.orig	Wed Jan 29 07:32:41 2003
-+++ xmovie-1.9.8/guicast/Makefile	Fri Feb 28 01:34:45 2003
-@@ -1,6 +1,6 @@
- include ../global_config
- 
--CFLAGS += -I../quicktime
-+CFLAGS += -I/usr/include/quicktime
- 
- 
- $(shell sh -c 'if ! test -d $(OBJDIR)\; then mkdir $(OBJDIR)\; fi' )
