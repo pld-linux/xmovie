@@ -3,7 +3,7 @@ Summary(pl):	Odtwarzacz filmów w ró¿nych formatach
 Summary(pt_BR):	Reprodutor de filmes QuickTime e MPEG-2
 Name:		xmovie
 Version:	1.9.12
-Release:	1
+Release:	2
 License:	GPL
 Group:		X11/Applications/Graphics
 Source0:	http://dl.sourceforge.net/heroines/%{name}-%{version}-src.tar.bz2
@@ -65,7 +65,8 @@ rm -rf libmpeg3 quicktime libsndfile* avifile
 %build
 # -DUSE_AVI for avifile support - but doesn't build then
 CFLAGS="%{rpmcflags} -fno-rtti"; export CFLAGS
-%{__make}
+%{__make} \
+	LFLAGS="-L/usr/X11R6/%{_lib}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
