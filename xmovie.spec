@@ -1,6 +1,7 @@
 Summary:	Viewer for various movie formats
+Summary(pl):	Odtwarzacz filmów w ró¿nych formatach
 Name:		xmovie
-Version:	1.5.2
+Version:	1.5.3
 Release:	1
 License:	GPL
 Group:		X11/Applications/Graphics
@@ -22,10 +23,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 Viewer for various movie formats, including QuickTime and MPEG1/2.
 
+%description -l pl
+Odtwarzacz filmów w ró¿nych formatach - QuickTime i MPEG1/2.
+
 %prep
 %setup -q
 %patch0 -p1
 # Just in case...
+rm -f guicast/colormodels.[ch]
+mv quicktime/colormodels.[ch] guicast
 rm -rf libmpeg3 quicktime
 
 %build
@@ -38,7 +44,7 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 
 install -s xmovie/xmovie $RPM_BUILD_ROOT%{_bindir}
 
-gzip -9nf docs/* README
+gzip -9nf docs/index.html README
 
 %clean
 rm -rf $RPM_BUILD_ROOT

@@ -1,6 +1,6 @@
-diff -ur xmovie-1.5.2/Makefile xmovie-1.5.2.new/Makefile
---- xmovie-1.5.2/Makefile	Sat Sep 30 05:12:29 2000
-+++ xmovie-1.5.2.new/Makefile	Sun Nov 19 03:51:13 2000
+diff -Nur xmovie-1.5.3.orig/Makefile xmovie-1.5.3/Makefile
+--- xmovie-1.5.3.orig/Makefile	Wed Nov 29 21:23:07 2000
++++ xmovie-1.5.3/Makefile	Wed Jan  3 02:34:43 2001
 @@ -1,12 +1,8 @@
  all:
 -	$(MAKE) -C quicktime
@@ -14,9 +14,9 @@ diff -ur xmovie-1.5.2/Makefile xmovie-1.5.2.new/Makefile
  	$(MAKE) -C guicast clean
  	$(MAKE) -C xmovie clean;
  
-diff -ur xmovie-1.5.2/configure xmovie-1.5.2.new/configure
---- xmovie-1.5.2/configure	Sat Sep 30 05:12:29 2000
-+++ xmovie-1.5.2.new/configure	Sun Nov 19 04:04:55 2000
+diff -Nur xmovie-1.5.3.orig/configure xmovie-1.5.3/configure
+--- xmovie-1.5.3.orig/configure	Wed Nov 29 21:23:07 2000
++++ xmovie-1.5.3/configure	Wed Jan  3 03:02:15 2001
 @@ -15,26 +15,16 @@
  EOF
  
@@ -28,13 +28,14 @@ diff -ur xmovie-1.5.2/configure xmovie-1.5.2.new/configure
  cat >> $GLOBAL_CONFIG << EOF
  INSTDIR = xmovie
  TARBALL = xmovie-1.4.tar.gz
- CC = g++
+-CC = g++
 -CFLAGS += -I../guicast -I../quicktime -I../libmpeg3
-+CFLAGS += -I../guicast -I/usr/X11R6/include -I/usr/X11R6/include/quicktime -I/usr/X11R6/include/libmpeg3
++CC = gcc
++CFLAGS += -I../guicast -I/usr/X11R6/include -I/usr/X11R6/include/quicktime -I/usr/X11R6/include/libmpeg3 -I/usr/lib/glib/include
  LFLAGS = -L/usr/X11R6/lib
 -LIBS = ../libmpeg3/libmpeg3.a ../quicktime/libquicktime.a ../guicast/libguicast.a \\
 +LIBS = ../guicast/libguicast.a -lmpeg3 -lquicktime \\
-  	-lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz
+  	-lX11 -lXext -lXv -lpthread -lglib -lm -lpng -lz -ldl
  LDLINKER = g++ -shared 
  EOF
 -
@@ -45,13 +46,21 @@ diff -ur xmovie-1.5.2/configure xmovie-1.5.2.new/configure
 -
 -
 -cd quicktime
--./configure --no-firewire
+-./configure
 -cd ..
-diff -ur xmovie-1.5.2/guicast/Makefile xmovie-1.5.2.new/guicast/Makefile
---- xmovie-1.5.2/guicast/Makefile	Sat Sep 30 05:12:32 2000
-+++ xmovie-1.5.2.new/guicast/Makefile	Sun Nov 19 03:55:19 2000
-@@ -64,7 +64,7 @@
- 	$(CC) -o test test.o libguicast.a ../libmpeg3/libmpeg3.a $(LFLAGS) $(LIBS) -lpng
+diff -Nur xmovie-1.5.3.orig/guicast/Makefile xmovie-1.5.3/guicast/Makefile
+--- xmovie-1.5.3.orig/guicast/Makefile	Wed Nov 29 21:23:09 2000
++++ xmovie-1.5.3/guicast/Makefile	Wed Jan  3 02:50:30 2001
+@@ -34,6 +34,7 @@
+ 	bcwindow.o \
+ 	bcwindowbase.o \
+ 	bcwindowdraw.o \
++	colormodels.o \
+ 	errorbox.o \
+ 	defaults.o \
+ 	filesystem.o \
+@@ -65,7 +66,7 @@
+ 	$(CC) -o test test.o libguicast.a ../libmpeg3/libmpeg3.a ../quicktime/libquicktime.a $(LFLAGS) $(LIBS) -lpng
  
  .C.o:
 -	$(CC) -c `./c_flags` $*.C
@@ -59,10 +68,10 @@ diff -ur xmovie-1.5.2/guicast/Makefile xmovie-1.5.2.new/guicast/Makefile
  
  clean:
  	rm -f core
-diff -ur xmovie-1.5.2/xmovie/Makefile xmovie-1.5.2.new/xmovie/Makefile
---- xmovie-1.5.2/xmovie/Makefile	Sat Sep 30 05:12:29 2000
-+++ xmovie-1.5.2.new/xmovie/Makefile	Sun Nov 19 03:55:34 2000
-@@ -32,7 +32,7 @@
+diff -Nur xmovie-1.5.3.orig/xmovie/Makefile xmovie-1.5.3/xmovie/Makefile
+--- xmovie-1.5.3.orig/xmovie/Makefile	Wed Nov 29 21:23:07 2000
++++ xmovie-1.5.3/xmovie/Makefile	Wed Jan  3 02:34:43 2001
+@@ -33,7 +33,7 @@
  	$(CC) -o test test.o $(LFLAGS) $(LIBS)
  
  .C.o:
