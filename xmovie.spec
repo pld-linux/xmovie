@@ -2,19 +2,19 @@ Summary:	Viewer for various movie formats
 Summary(pl):	Odtwarzacz filmów w ró¿nych formatach
 Summary(pt_BR):	Reprodutor de filmes QuickTime e MPEG-2
 Name:		xmovie
-Version:	1.9.6
+Version:	1.9.7
 Release:	1
 License:	GPL
 Group:		X11/Applications/Graphics
-URL:		http://heroine.linuxave.net/xmovie.html
-Source0:	http://heroines.sourceforge.net/%{name}-%{version}.tar.gz
+Source0:	http://prdownloads.sourceforge.net/heroines/%{name}-%{version}.tar.gz
 Patch0:		%{name}-system-libs.patch
+URL:		http://heroinewarrior.com/xmovie.php3
 BuildRequires:	XFree86-devel
 #BuildRequires:	avifile-devel
 BuildRequires:	glib-devel
 BuildRequires:	libmpeg3-devel
 BuildRequires:	libpng-devel
-BuildRequires:	libsndfile-devel
+BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	quicktime4linux-devel >= 1.5
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
