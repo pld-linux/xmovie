@@ -1,0 +1,24 @@
+diff -urN xmovie-1.9.13.org/global_config xmovie-1.9.13/global_config
+--- xmovie-1.9.13.org/global_config	2004-04-05 03:26:48.000000000 +0200
++++ xmovie-1.9.13/global_config	2006-11-26 00:11:47.063204250 +0100
+@@ -75,7 +75,7 @@
+ CXXREPOSITORY = cxx_repository/*.o
+ endif
+ 
+-$(shell sh -c 'if ! test -d $(OBJDIR)\; then mkdir $(OBJDIR)\; fi' )
++$(shell install -d $(OBJDIR))
+ 
+ ########################## LINKER
+ 
+diff -urN xmovie-1.9.13.org/guicast/Makefile xmovie-1.9.13/guicast/Makefile
+--- xmovie-1.9.13.org/guicast/Makefile	2004-02-16 02:29:52.000000000 +0100
++++ xmovie-1.9.13/guicast/Makefile	2006-11-26 00:12:08.140521500 +0100
+@@ -16,7 +16,7 @@
+ 
+ #CFLAGS += -g
+ 
+-$(shell sh -c 'if ! test -d $(OBJDIR)\; then mkdir $(OBJDIR)\; fi' )
++$(shell install -d $(OBJDIR))
+ 
+ OBJS = \
+ 	$(OBJDIR)/bcbitmap.o \
