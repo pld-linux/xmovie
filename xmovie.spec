@@ -10,6 +10,8 @@ Source0:	http://dl.sourceforge.net/heroines/%{name}-%{version}-src.tar.bz2
 # Source0-md5:	94608574eea5c6749528eedb08ee3139
 Patch0:		%{name}-system-libs.patch
 Patch1:		%{name}-alpha.patch
+Patch2:		%{name}-sh.patch
+Patch3:		%{name}-c++.patch
 URL:		http://heroinewarrior.com/xmovie.php3
 BuildRequires:	XFree86-devel
 #BuildRequires:	avifile-devel
@@ -60,6 +62,8 @@ alta resolução que você capture ou componha com som estéreo.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 # Just in case...
 rm -rf libmpeg3 quicktime libsndfile* avifile
