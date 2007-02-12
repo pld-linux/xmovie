@@ -1,6 +1,6 @@
 Summary:	Viewer for various movie formats
-Summary(pl):	Odtwarzacz filmów w ró¿nych formatach
-Summary(pt_BR):	Reprodutor de filmes QuickTime e MPEG-2
+Summary(pl.UTF-8):   Odtwarzacz filmÃ³w w rÃ³Å¼nych formatach
+Summary(pt_BR.UTF-8):   Reprodutor de filmes QuickTime e MPEG-2
 Name:		xmovie
 Version:	1.9.13
 Release:	1
@@ -39,24 +39,24 @@ video, Quicktime video (Motion JPEG A, Uncompressed RGB, Component
 video, Progressive JPEG, PNG, YUV 4:2:0, DV), Quicktime audio (Twos
 complement, IMA4, uLaw).
 
-%description -l pl
-XMovie to odtwarzacz filmów w formatach MPEG-2, DVD i QuickTime z
-d¼wiêkiem stereo. Nie odtwarza filmów ¶ci±ganych z Internetu - s³u¿y
-natomiast do odtwarzania d³ugich filmów w wysokiej rozdzielczo¶ci
-z d¼wiêkiem stereo zgrywanych lub montowanych samemu. Inne odtwarzacze
-Quicktime mog± nie byæ zbyt wygodne dla filmów powy¿ej 50 minut albo
-nie obs³ugiwaæ ró¿nych proporcji lub d¼wiêku stereo.
+%description -l pl.UTF-8
+XMovie to odtwarzacz filmÃ³w w formatach MPEG-2, DVD i QuickTime z
+dÅºwiÄ™kiem stereo. Nie odtwarza filmÃ³w Å›ciÄ…ganych z Internetu - sÅ‚uÅ¼y
+natomiast do odtwarzania dÅ‚ugich filmÃ³w w wysokiej rozdzielczoÅ›ci
+z dÅºwiÄ™kiem stereo zgrywanych lub montowanych samemu. Inne odtwarzacze
+Quicktime mogÄ… nie byÄ‡ zbyt wygodne dla filmÃ³w powyÅ¼ej 50 minut albo
+nie obsÅ‚ugiwaÄ‡ rÃ³Å¼nych proporcji lub dÅºwiÄ™ku stereo.
 
-XMovie odtwarza strumienie MPEG-1/MPEG-2, d¼wiêk MP2/MP3/AC3, obraz
+XMovie odtwarza strumienie MPEG-1/MPEG-2, dÅºwiÄ™k MP2/MP3/AC3, obraz
 MPEG-1/2, obraz Quicktime (w formatach Motion JPEG A,
 nieskompresowanym RGB, Component video, Progressive JPEG, PNG, YUV
-4:2:0, DV), d¼wiêk Quicktime (w formatach ze znakiem, IMA4, uLaw).
+4:2:0, DV), dÅºwiÄ™k Quicktime (w formatach ze znakiem, IMA4, uLaw).
 
-%description -l pt_BR
-Aqui está um reprodutor de filmes em MPEG-2, DVD e Quicktime com som
-estéreo. Ele não reproduzirá todos os filmes que você obter na
+%description -l pt_BR.UTF-8
+Aqui estÃ¡ um reprodutor de filmes em MPEG-2, DVD e Quicktime com som
+estÃ©reo. Ele nÃ£o reproduzirÃ¡ todos os filmes que vocÃª obter na
 Internet. O XMovie deve ser usado para reproduzir filmes longos e de
-alta resolução que você capture ou componha com som estéreo.
+alta resoluÃ§Ã£o que vocÃª capture ou componha com som estÃ©reo.
 
 %prep
 %setup -q
