@@ -1,6 +1,6 @@
 Summary:	Viewer for various movie formats
-Summary(pl.UTF-8):   Odtwarzacz filmów w różnych formatach
-Summary(pt_BR.UTF-8):   Reprodutor de filmes QuickTime e MPEG-2
+Summary(pl.UTF-8):	Odtwarzacz filmów w różnych formatach
+Summary(pt_BR.UTF-8):	Reprodutor de filmes QuickTime e MPEG-2
 Name:		xmovie
 Version:	1.9.13
 Release:	1
