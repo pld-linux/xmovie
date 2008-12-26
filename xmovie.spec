@@ -13,8 +13,6 @@ Patch1:		%{name}-alpha.patch
 Patch2:		%{name}-sh.patch
 Patch3:		%{name}-c++.patch
 URL:		http://heroinewarrior.com/xmovie.php3
-BuildRequires:	XFree86-devel
-#BuildRequires:	avifile-devel
 BuildRequires:	gcc-c++
 BuildRequires:	glib-devel
 BuildRequires:	libmpeg3-devel
@@ -22,6 +20,11 @@ BuildRequires:	libpng-devel
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	quicktime4linux-devel >= 2.0.1
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXv-devel
+BuildRequires:	xorg-proto-xextproto-devel
+BuildRequires:	xorg-proto-xf86vidmodeproto-devel
+BuildRequires:	xorg-proto-xproto-devel
 BuildRequires:	zlib-devel
 Requires:	quicktime4linux >= 2.0.1
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
